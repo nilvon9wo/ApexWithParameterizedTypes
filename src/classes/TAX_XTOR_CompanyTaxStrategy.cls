@@ -1,4 +1,4 @@
-public class TAX_XTOR_CompanyTaxStrategy implements TAX_XTOR_TaxStrategyIntf{
+public class TAX_XTOR_CompanyTaxStrategy implements TAX_XTOR_TaxStrategyIntf<TAX_PAYR_Company>{
     TAX_TaxRateLookup taxRateLookup;
     
     public TAX_XTOR_CompanyTaxStrategy(TAX_TaxRateLookup taxRateLookup) {

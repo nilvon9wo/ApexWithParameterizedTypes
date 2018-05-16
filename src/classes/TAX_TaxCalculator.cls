@@ -11,7 +11,7 @@ public class TAX_TaxCalculator {
 		}
 		return instance;
 	}
-	
+	 
     @testVisible
 	private TAX_TaxCalculator(
     		TAX_TaxPayerTypeEnumHelper taxPayerTypeEnumHelper, 
@@ -32,8 +32,8 @@ public class TAX_TaxCalculator {
     // -----------------------------------------------------------------------------
      
     public Double extortCash(TAX_PAYR_TaxPayerIntf taxPayer) {
-    	return this.taxStrategyLookUp
-    		.get(this.taxPayerTypeEnumHelper.getTypeFrom(taxPayer))
-    		.extortCash(taxPayer);
+		TAX_TaxPayerTypeEnum payerType = this.taxPayerTypeEnumHelper.getTypeFrom(taxPayer);
+		TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf> strategy = this.taxStrategyLookUp.get(payerType);
+    	return strategy.extortCash(taxPayer);
     }
 }

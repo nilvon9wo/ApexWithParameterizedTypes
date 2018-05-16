@@ -17,19 +17,18 @@ public class TAX_XTOR_TaxStrategyLookUp {
     private static final Map<TAX_TaxPayerTypeEnum, Type> STRATEGY_TYPE_BY_PAYER_TYPE_MAP = new Map<TAX_TaxPayerTypeEnum, Type>{
 		TAX_TaxPayerTypeEnum.COMPANY => TAX_XTOR_CompanyTaxStrategy.class, 
 		TAX_TaxPayerTypeEnum.EMPLOYEE => TAX_XTOR_EmployeeTaxStrategy.class,
-		TAX_TaxPayerTypeEnum.TRUST => TAX_XTOR_TrustTaxStrategy.class
+		TAX_TaxPayerTypeEnum.TRUST => TAX_XTOR_TrustTaxStrategy.class 
 	};
 	
-	private static final Map<TAX_TaxPayerTypeEnum, TAX_XTOR_TaxStrategyIntf> STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP 
-		= new Map<TAX_TaxPayerTypeEnum, TAX_XTOR_TaxStrategyIntf>(); 
+	private static final Map<TAX_TaxPayerTypeEnum, TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf>> STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP 
+		= new Map<TAX_TaxPayerTypeEnum, TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf>>();  
     
     
-    public TAX_XTOR_TaxStrategyIntf get(TAX_TaxPayerTypeEnum payerType) {
+    public TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf> get(TAX_TaxPayerTypeEnum payerType) {
     	if (STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP.get(payerType) == null) {
-    		STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP.put(
-    			payerType, 
-    			(TAX_XTOR_TaxStrategyIntf) STRATEGY_TYPE_BY_PAYER_TYPE_MAP.get(payerType).newInstance()
-    		);
+    		Type strategyType = STRATEGY_TYPE_BY_PAYER_TYPE_MAP.get(payerType);
+    		TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf> strategyInstance = (TAX_XTOR_TaxStrategyIntf<TAX_PAYR_TaxPayerIntf>) strategyType.newInstance();
+    		STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP.put(payerType, strategyInstance);
     	}
     	return STRATEGY_INSTANCE_BY_PAYER_TYPE_MAP.get(payerType);
     } 
